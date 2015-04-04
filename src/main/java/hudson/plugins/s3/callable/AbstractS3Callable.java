@@ -33,7 +33,8 @@ public class AbstractS3Callable implements Serializable
     {
         if (client == null) {
             if (useRole) {
-                client = new AmazonS3Client(new InstanceProfileCredentialsProvider(), getClientConfiguration());
+                final InstanceProfileCredentialsProvider credentialsProvider = new InstanceProfileCredentialsProvider(false);
+                client = new AmazonS3Client(credentialsProvider.getCredentials(), getClientConfiguration());
             } else {
                 client = new AmazonS3Client(new BasicAWSCredentials(accessKey, secretKey.getPlainText()), getClientConfiguration());
             }
